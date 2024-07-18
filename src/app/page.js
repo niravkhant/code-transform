@@ -1,9 +1,7 @@
-import MonacoEditor from "@/Components/MonacoEditor";
+"use client";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  return (
-    <>
-      <MonacoEditor />
-    </>
-  );
+  const router = useRouter();
+  return router.push("/css-to-module-css");
 }

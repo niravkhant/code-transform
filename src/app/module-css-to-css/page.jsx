@@ -3,38 +3,46 @@ import { useState, useRef } from "react";
 import Editor from "@monaco-editor/react";
 import Head from "next/head";
 
-// function transformHtml(html) {
-//   return html.replace(/class="([^"]+)"/g, (match, classes) => {
+// function reverseTransformHtml(html) {
+//   return html.replace(/className=\{`([^`]*)`\}/g, (match, classes) => {
 //     const classArray = classes
-//       .split(" ")
-//       .map((cls) => `\${style["${cls}"]}`)
-//       .join(" ");
-//     return `className={\`${classArray}\`}`;
+//       .match(/style\["([^"]+)"\]/g)
+//       .map(cls => cls.replace(/style\["([^"]+)"\]/, '$1'))
+//       .join(' ');
+//     return `class="${classArray}"`;
 //   });
 // }
 
-function transformHtml(html) {
-  return html.replace(/(class|className)="([^"]+)"/g, (match, p1, classes) => {
+function reverseTransformHtml(html) {
+  // Handle template literals className={`...`}
+  html = html.replace(/className=\{`([^`]*)`\}/g, (match, classes) => {
     const classArray = classes
-      .split(" ")
-      .map((cls) => `\${style["${cls}"]}`)
+      .match(/style\["([^"]+)"\]/g)
+      .map((cls) => cls.replace(/style\["([^"]+)"\]/, "$1"))
       .join(" ");
-    return `className={\`${classArray}\`}`;
+    return `class="${classArray}"`;
   });
+
+  // Handle simple object property access className={style["..."]}
+  html = html.replace(/className=\{style\["([^"]+)"\]\}/g, (match, cls) => {
+    return `class="${cls}"`;
+  });
+
+  return html;
 }
 
-export default function MonacoEditor() {
+const pagemodulecsstocss = () => {
   const [htmlInput, setHtmlInput] = useState("");
   const [transformedHtml, setTransformedHtml] = useState("");
   const transformedEditorRef = useRef(null);
 
   const handleEditorChange = (value) => {
     setHtmlInput(value);
-    setTransformedHtml(transformHtml(value));
+    setTransformedHtml(reverseTransformHtml(value));
   };
 
   const handleSubmit = () => {
-    setTransformedHtml(transformHtml(htmlInput));
+    setTransformedHtml(reverseTransformHtml(htmlInput));
   };
 
   const handleCopy = () => {
@@ -48,7 +56,6 @@ export default function MonacoEditor() {
         console.error("Failed to copy text: ", err);
       });
   };
-
   return (
     <div className="editormainpart ml-64">
       <Head>
@@ -87,4 +94,6 @@ export default function MonacoEditor() {
       </div>
     </div>
   );
-}
+};
+
+export default pagemodulecsstocss;
