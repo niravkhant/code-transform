@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.leftpartmain{
+  margin-left: 16rem;
+}

@@ -1,0 +1,47 @@
+.textareamain {
+  border: 1px solid #000;
+  outline: none;
+  border-radius: 8px;
+  box-shadow: 0px 10px 20px -18px;
+  background-color: #f5f5f5;
+  line-height: 1.5;
+  min-height: 150px;
+}
+.buttoncopy {
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+  height: 3rem;
+  padding: 0 2rem;
+  border-radius: 1.5rem;
+  background: #3d3a4e;
+  background-size: 400%;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+.buttoncopy:hover::before {
+  transform: scaleX(1);
+}
+.button-content {
+  position: relative;
+  z-index: 1;
+}
+.buttoncopy::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  width: 100%;
+  height: inherit;
+  border-radius: inherit;
+  background: linear-gradient(82.3deg, rgba(150, 93, 233, 1) 10.8%, rgba(99, 88, 238, 1) 94.3%);
+  transition: all 0.475s;
+}
+.placeholdertext {
+  font-weight: 600;
+  font-size: 18px;
+  color: #757575;
+}

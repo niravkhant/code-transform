@@ -37,24 +37,18 @@ const Sidebar = () => {
               <span className="text-sm">Module CSS to CSS</span>
               <i className="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90" />
             </Link>
-            <ul className="pl-7 mt-2 hidden group-[.selected]:block">
-              <li className="mb-4">
-                <a
-                  href=""
-                  className="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3"
-                >
-                  All
-                </a>
-              </li>
-              <li className="mb-4">
-                <a
-                  href=""
-                  className="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3"
-                >
-                  Roles
-                </a>
-              </li>
-            </ul>
+          </li>
+          <span className="text-gray-400 font-bold">Image</span>
+          <li className="mb-1 group">
+            <Link
+              href="/extract-text-from-image"
+              className={`${
+                pathname === "/extract-text-from-image" ? "bg-[#f84525] text-white" : ""
+              } flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100`}
+            >
+              <i className="ri-home-2-line mr-3 text-lg" />
+              <span className="text-sm">Extract Text</span>
+            </Link>
           </li>
           {/* <li className="mb-1 group">
             <a
@@ -126,7 +120,7 @@ const Sidebar = () => {
           </li> */}
         </ul>
       </div>
-      <div className="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay" />
+      {/* <div className="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay" /> */}
       {/* end sidenav */}
     </>
   );

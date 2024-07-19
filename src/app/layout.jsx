@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Sidebar />
-        {children}
+        <div className="leftpartmain">{children}</div>
       </body>
     </html>
   );
