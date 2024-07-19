@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-.leftpartmain{
+.leftpartmain {
   margin-left: 16rem;
+}
+.sidebar-menu {
+  transition: transform 0.3s ease-in-out;
+}
+@media screen and (max-width: 767px) {
+  .leftpartmain {
+    margin-left: 3rem;
+    margin-top: 3rem;
+  }
 }

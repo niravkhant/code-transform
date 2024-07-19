@@ -1,13 +1,26 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <>
       {/*sidenav */}
-      <div className="fixed left-0 top-0 w-56 h-full bg-[#f8f4f3] p-4 z-50 sidebar-menu transition-transform">
+      <button className="fixed top-4 left-4 z-50 md:hidden text-3xl" onClick={toggleSidebar}>
+        {isOpen ? <FaTimes /> : <FaBars />}
+      </button>
+      <div
+        className={`fixed left-0 top-0 w-56 h-full bg-[#f8f4f3] p-4 z-50 sidebar-menu transition-transform transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
+      >
         <Link href="#" className="flex items-center pb-4 border-b border-b-gray-800">
           <h2 className="font-bold text-xl">
             CODE <span className="bg-[#f84525] text-white px-2 py-1 rounded-md">Transform</span>
@@ -120,7 +133,12 @@ const Sidebar = () => {
           </li> */}
         </ul>
       </div>
-      {/* <div className="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay" /> */}
+      <div
+        onClick={toggleSidebar}
+        className={`fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay transition-opacity ${
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      />
       {/* end sidenav */}
     </>
   );
