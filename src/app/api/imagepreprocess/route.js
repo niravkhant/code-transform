@@ -1,11 +1,7 @@
 import sharp from "sharp";
 import { NextResponse } from "next/server";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export const dynamic = 'auto'
 
 // const getRawBody = async (req) => {
 //   return new Promise((resolve, reject) => {
