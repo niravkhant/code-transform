@@ -1,36 +1,18 @@
+// this is only convert classname syntaxt with no conversion of a tag and img tag
 "use client";
 import { useState, useRef } from "react";
 import Editor from "@monaco-editor/react";
 import Head from "next/head";
 
+
 function transformHtml(html) {
-  const wordsToSkip = ["container", "row", "col-md-6"]; // Add any class names to skip conversion
-  
-  return html
-    .replace(/(class|className)=['"]([^'"]+)['"]/g, (match, p1, classes) => {
-      // Handle class or className attributes with single or double quotes
-      const classArray = classes.split(" ").map((cls) => {
-        return wordsToSkip.includes(cls) ? cls : `\${style["${cls}"]}`;
-      }).join(" ");
-      return `className={\`${classArray}\`}`;
-    })
-    .replace(/<img\s+([^>]+)>/g, (match, imgAttributes) => {
-      // Convert <img> to <Image /> with width and height set to 0
-      const attributes = imgAttributes.replace(/\s?\/?\s?>/, ""); // Remove any self-closing slashes if present
-      return `<Image ${attributes} width={0} height={0} />`;
-    })
-    .replace(/<a\s+([^>]+)>(.*?)<\/a>/gs, (match, anchorAttributes, content) => {
-      // Convert <a> to <Link> while keeping the inner content unchanged
-      return `<Link ${anchorAttributes}>${content}</Link>`;
-    })
-    .replace(/<label\s+for=['"]([^'"]+)['"]/g, (match, labelFor) => {
-      // Convert for= to htmlFor= in <label> tags
-      return `<label htmlFor="${labelFor}"`;
-    })
-    .replace(/<input\s+([^>]+)>/g, (match, inputAttributes) => {
-      // Convert <input> tags to self-closing tags
-      return `<input ${inputAttributes} />`;
-    });
+  return html.replace(/(class|className)="([^"]+)"/g, (match, p1, classes) => {
+    const classArray = classes
+      .split(" ")
+      .map((cls) => `\${style["${cls}"]}`)
+      .join(" ");
+    return `className={\`${classArray}\`}`;
+  });
 }
 
 export default function MonacoEditor() {
