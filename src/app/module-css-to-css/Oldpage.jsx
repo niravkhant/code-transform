@@ -4,27 +4,7 @@ import Editor from "@monaco-editor/react";
 import Head from "next/head";
 
 function reverseTransformHtml(html) {
-  // 1. Convert self-closing <input /> to <input>
-  html = html.replace(/<input\s+([^>]+)\s*\/>/g, (match, inputAttributes) => {
-    return `<input ${inputAttributes}>`;
-  });
-
-  // 2. Convert htmlFor to for in <label> tags
-  html = html.replace(/htmlFor=/g, 'for=');
-
-  // 3. Convert <Link> to <a> tags
-  html = html.replace(/<Link\s+([^>]+)>(.*?)<\/Link>/gs, (match, linkAttributes, content) => {
-    return `<a ${linkAttributes}>${content}</a>`;
-  });
-
-  // 4. Convert <Image /> to <img> and remove width and height attributes, as well as the self-closing slash
-  html = html.replace(/<Image\s+([^>]+)\s*\/>/g, (match, imageAttributes) => {
-    // Remove width and height attributes from the Image tag
-    const cleanedAttributes = imageAttributes.replace(/\s*width=\{?\d+\}?/g, "").replace(/\s*height=\{?\d+\}?/g, "");
-    return `<img ${cleanedAttributes}>`;
-  });
-
-  // 5. Handle className= conversion with various patterns (single/double quotes and template literals)
+  // Handle template literals className={`...`}
   html = html.replace(/className=\{`([^`]*)`\}/g, (match, classes) => {
     const classArray = classes
       .match(/style\["([^"]+)"\]/g)
@@ -33,45 +13,13 @@ function reverseTransformHtml(html) {
     return `class="${classArray}"`;
   });
 
-  // Convert className={style["..."]} to class="..."
+  // Handle simple object property access className={style["..."]}
   html = html.replace(/className=\{style\["([^"]+)"\]\}/g, (match, cls) => {
     return `class="${cls}"`;
   });
 
-  // Convert className={style['...']} to class="..."
-  html = html.replace(/className=\{style\['([^']+)'\]\}/g, (match, cls) => {
-    return `class="${cls}"`;
-  });
-
-  // Convert className={`container`} to class="container"
-  html = html.replace(/className=\{`([^`]*)`\}/g, (match, cls) => {
-    return `class="${cls}"`;
-  });
-
-  // Convert className={"container"} to class="container"
-  html = html.replace(/className=\{["']([^"']+)["']\}/g, (match, cls) => {
-    return `class="${cls}"`;
-  });
-
-  // Convert className="container" or className='container' to class="container"
-  html = html.replace(/className=["']([^"']+)["']/g, (match, cls) => {
-    return `class="${cls}"`;
-  });
-
-  // Convert multiple className={`${style["..."]} ${style["..."]}`} to class="..."
-  html = html.replace(/className=\{`([^`]*)`\}/g, (match, classes) => {
-    const classArray = classes
-      .split(/\s+/)
-      .map((cls) => cls.replace(/style\["([^"]+)"\]/g, "$1"))
-      .join(" ");
-    return `class="${classArray}"`;
-  });
-
   return html;
 }
-
-
-
 
 const pagemodulecsstocss = () => {
   const [htmlInput, setHtmlInput] = useState("");
@@ -98,7 +46,6 @@ const pagemodulecsstocss = () => {
         console.error("Failed to copy text: ", err);
       });
   };
-
   return (
     <div className="editormainpart">
       <Head>
